@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Worker {
+  id              String      @id @default(cuid())
+  name            String
+  nameKana        String?
+  nationality     String
+  visaStatus      String
+  employer        String
+  employerContact String?
+  entryDate       DateTime
+  contractEnd     DateTime
+  phone           String?
+  email           String?
+  address         String?
+  residenceCard   String?
+  status          String      @default("active")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  supports        Support[]
+  interviews      Interview[]
+  documents       Document[]
+}
+
+model Support {
+  id          String    @id @default(cuid())
+  workerId    String
+  worker      Worker    @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  type        String
+  status      String    @default("pending")
+  completedAt DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Interview {
+  id          String    @id @default(cuid())
+  workerId    String
+  worker      Worker    @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  scheduledAt DateTime
+  conductedAt DateTime?
+  status      String    @default("scheduled")
+  notes       String?
+  interviewer String?
+  concerns    String?
+  quarter     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Document {
+  id        String    @id @default(cuid())
+  workerId  String
+  worker    Worker    @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  name      String
+  type      String
+  expiresAt DateTime?
+  fileUrl   String?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Report {
+  id          String    @id @default(cuid())
+  title       String
+  type        String
+  period      String
+  status      String    @default("draft")
+  submittedAt DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

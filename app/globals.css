@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #1e293b;
+  --sidebar-bg: #1e3a5f;
+  --sidebar-text: #e2e8f0;
+  --primary: #1e40af;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Noto Sans JP", Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
